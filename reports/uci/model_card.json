@@ -1,0 +1,14 @@
+{
+  "intended_use": "Educational risk-ranking and model-validation demonstration only",
+  "prohibited_use": "Real lending eligibility, pricing, or adverse action decisions",
+  "label": "Competition TARGET; not a universal default definition",
+  "validation_limit": "Random stratified holdout, not prospective or out-of-time validation",
+  "selected_model": "lightgbm",
+  "known_risks": [
+    "historical access bias",
+    "geographic transportability",
+    "missing data patterns",
+    "calibration drift",
+    "unverified legal compliance"
+  ]
+}

@@ -1,0 +1,19 @@
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  application_train: application_train.csv
+  bureau: bureau.csv
+  previous_application: previous_application.csv
+validation:
+  holdout_fraction: 0.2
+  folds: 5
+  seed: 42
+model:
+  primary_metric: average_precision
+  n_jobs: -1
+decision:
+  false_approval_cost: 5.0
+  false_decline_cost: 1.0
+paths:
+  artifacts: artifacts
+  reports: reports

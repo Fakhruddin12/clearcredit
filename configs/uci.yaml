@@ -1,0 +1,18 @@
+data:
+  source: uci_credit_card
+  raw_dir: data/uci/raw
+  processed_dir: data/uci/processed
+  uci_url: https://archive.ics.uci.edu/static/public/350/default+of+credit+card+clients.zip
+validation:
+  holdout_fraction: 0.2
+  folds: 5
+  seed: 42
+model:
+  primary_metric: average_precision
+  n_jobs: -1
+decision:
+  false_approval_cost: 5.0
+  false_decline_cost: 1.0
+paths:
+  artifacts: artifacts/uci
+  reports: reports/uci

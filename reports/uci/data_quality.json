@@ -1,0 +1,10 @@
+{
+  "rows": 30000,
+  "columns": 2,
+  "target_rate": 0.2212,
+  "duplicate_applicants": 0,
+  "missing_cells": 0,
+  "feature_file": "data/uci/processed/application_features.parquet",
+  "rows_after_join": 30000,
+  "columns_after_join": 25
+}

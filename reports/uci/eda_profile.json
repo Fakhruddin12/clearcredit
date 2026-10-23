@@ -1,0 +1,194 @@
+{
+  "row_count": 30000,
+  "column_count": 25,
+  "target_prevalence": 0.2212,
+  "missingness_top": [
+    {
+      "feature": "SK_ID_CURR",
+      "fraction": 0.0
+    },
+    {
+      "feature": "LIMIT_BAL",
+      "fraction": 0.0
+    },
+    {
+      "feature": "SEX",
+      "fraction": 0.0
+    },
+    {
+      "feature": "EDUCATION",
+      "fraction": 0.0
+    },
+    {
+      "feature": "MARRIAGE",
+      "fraction": 0.0
+    },
+    {
+      "feature": "AGE",
+      "fraction": 0.0
+    },
+    {
+      "feature": "PAY_0",
+      "fraction": 0.0
+    },
+    {
+      "feature": "PAY_2",
+      "fraction": 0.0
+    },
+    {
+      "feature": "PAY_3",
+      "fraction": 0.0
+    },
+    {
+      "feature": "PAY_4",
+      "fraction": 0.0
+    },
+    {
+      "feature": "PAY_5",
+      "fraction": 0.0
+    },
+    {
+      "feature": "PAY_6",
+      "fraction": 0.0
+    },
+    {
+      "feature": "BILL_AMT1",
+      "fraction": 0.0
+    },
+    {
+      "feature": "BILL_AMT2",
+      "fraction": 0.0
+    },
+    {
+      "feature": "BILL_AMT3",
+      "fraction": 0.0
+    },
+    {
+      "feature": "BILL_AMT4",
+      "fraction": 0.0
+    },
+    {
+      "feature": "BILL_AMT5",
+      "fraction": 0.0
+    },
+    {
+      "feature": "BILL_AMT6",
+      "fraction": 0.0
+    },
+    {
+      "feature": "PAY_AMT1",
+      "fraction": 0.0
+    },
+    {
+      "feature": "PAY_AMT2",
+      "fraction": 0.0
+    },
+    {
+      "feature": "PAY_AMT3",
+      "fraction": 0.0
+    },
+    {
+      "feature": "PAY_AMT4",
+      "fraction": 0.0
+    },
+    {
+      "feature": "PAY_AMT5",
+      "fraction": 0.0
+    },
+    {
+      "feature": "PAY_AMT6",
+      "fraction": 0.0
+    },
+    {
+      "feature": "TARGET",
+      "fraction": 0.0
+    }
+  ],
+  "numeric_median_shift_top": [
+    {
+      "feature": "LIMIT_BAL",
+      "absolute_median_difference": 60000.0
+    },
+    {
+      "feature": "BILL_AMT1",
+      "absolute_median_difference": 2934.5
+    },
+    {
+      "feature": "BILL_AMT2",
+      "absolute_median_difference": 1360.0
+    },
+    {
+      "feature": "BILL_AMT6",
+      "absolute_median_difference": 1349.5
+    },
+    {
+      "feature": "PAY_AMT1",
+      "absolute_median_difference": 823.5
+    },
+    {
+      "feature": "PAY_AMT3",
+      "absolute_median_difference": 778.0
+    },
+    {
+      "feature": "PAY_AMT5",
+      "absolute_median_difference": 765.0
+    },
+    {
+      "feature": "PAY_AMT4",
+      "absolute_median_difference": 734.0
+    },
+    {
+      "feature": "PAY_AMT2",
+      "absolute_median_difference": 714.0
+    },
+    {
+      "feature": "PAY_AMT6",
+      "absolute_median_difference": 706.0
+    },
+    {
+      "feature": "BILL_AMT5",
+      "absolute_median_difference": 480.5
+    },
+    {
+      "feature": "BILL_AMT3",
+      "absolute_median_difference": 368.0
+    },
+    {
+      "feature": "BILL_AMT4",
+      "absolute_median_difference": 119.5
+    },
+    {
+      "feature": "PAY_0",
+      "absolute_median_difference": 1.0
+    },
+    {
+      "feature": "SEX",
+      "absolute_median_difference": 0.0
+    },
+    {
+      "feature": "PAY_2",
+      "absolute_median_difference": 0.0
+    },
+    {
+      "feature": "AGE",
+      "absolute_median_difference": 0.0
+    },
+    {
+      "feature": "MARRIAGE",
+      "absolute_median_difference": 0.0
+    },
+    {
+      "feature": "EDUCATION",
+      "absolute_median_difference": 0.0
+    },
+    {
+      "feature": "PAY_3",
+      "absolute_median_difference": 0.0
+    }
+  ],
+  "categorical_default_rates": {},
+  "notes": [
+    "Descriptive associations are not causal effects.",
+    "Missingness may encode process and access differences; inspect before imputation."
+  ]
+}
