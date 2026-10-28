@@ -32,3 +32,11 @@ __pycache__/
 .env.*
 .Rhistory
 .RData
+
+
+# Research datasets and generated model/prediction artifacts
+research/v2/data/
+research/v2/results/models/
+research/v2/results/reporting_predictions.csv
+research/v2/results/split_indices.npz
+research/v2/results_reproduced/

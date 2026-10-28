@@ -1,0 +1,16 @@
+{
+  "purpose": "Rank existing credit-card accounts for hypothetical risk review; predict source-defined next-month default.",
+  "data": "UCI 350, Taiwan April-September 2005 account history; 30,000 rows.",
+  "reporting_set": "Original stratified random 20% seed=42, already examined in v1; descriptive internal re-evaluation only.",
+  "development": "Remove financial-feature duplicate groups shared with reporting set. StratifiedGroupKFold(5, shuffle=True, random_state=2026): fold0 tuning, fold1 calibration, folds2-4 fitting.",
+  "selection": "Highest tuning average precision. Family winners selected without reporting labels. No reporting-set tuning.",
+  "models": "Unweighted logistic regression; unweighted LightGBM; custom tabular residual network; monthly GRU with static branch; fixed 50:50 tree/strongest-neural blend.",
+  "neural": "Two presets per family; max60 epochs, patience8 on tuning log loss; seeds42/137/2026 for selected preset. Custom implementations inspired by literature, not paper replications.",
+  "refit": "Family winners refit on fitting+tuning rows; neural epochs fixed to median best epoch from development runs. Calibration rows excluded from all base-model fitting.",
+  "calibration": "One sigmoid calibrator per family fit to its predictions on separate calibration rows; report before/after diagnostics.",
+  "demographics": "ID, sex, age, education and marriage excluded from predictors. Sex and age retained only for descriptive audits. Exclusion does not prove fairness.",
+  "policy": "Illustrative review capacity20%; tuning score quantile sets fixed threshold; also report exact top20% ranking on reporting set. No causal treatment or profit claim.",
+  "uncertainty": "500 paired cluster-bootstrap draws over identical financial-feature groups; conditional on fitted models, not training or selection uncertainty.",
+  "stress": "Label-prior reweighting to35% defaults; latest-month masking and +1 month delinquency perturbation are sensitivity scenarios, not causal or macroeconomic forecasts.",
+  "stop_rule": "No model changes after first reporting evaluation. Negative deep-learning results retained."
+}

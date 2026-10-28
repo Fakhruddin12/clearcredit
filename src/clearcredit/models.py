@@ -10,8 +10,10 @@ from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 
 def split_features(df, target="TARGET", id_column="SK_ID_CURR"):
     y = df[target].astype(int)
-    # Gender and date-of-birth are reserved for post-hoc audit, not model inputs.
-    X = df.drop(columns=[target, id_column, "CODE_GENDER", "DAYS_BIRTH"], errors="ignore").copy()
+    # Both supported schemas must exclude identifiers and audit-only fields.
+    # The saved v1 benchmark predates this UCI schema correction.
+    audit_only = ["CODE_GENDER", "DAYS_BIRTH", "SEX", "AGE", "EDUCATION", "MARRIAGE"]
+    X = df.drop(columns=[target, id_column, "ID", *audit_only], errors="ignore").copy()
     for col in X.select_dtypes(include=["object", "string"]).columns:
         X[col] = X[col].astype("object")
     return X, y
@@ -71,3 +73,4 @@ def feature_importance(model, X, y, sample_size=10000, seed=42):
     result = permutation_importance(model, X.iloc[idx], y.iloc[idx], scoring="average_precision", n_repeats=3, random_state=seed, n_jobs=1)
     order = np.argsort(result.importances_mean)[::-1][:30]
     return [{"feature": str(X.columns[i]), "mean_ap_drop": float(result.importances_mean[i]), "sd": float(result.importances_std[i])} for i in order]
+

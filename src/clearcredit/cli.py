@@ -82,13 +82,15 @@ def run_train(cfg):
     test_logits = np.log(test_raw / (1 - test_raw)).reshape(-1, 1)
     test_p = calibrator.predict_proba(test_logits)[:, 1]
     # Use gender only for post-hoc auditing, never as a decision feature in this prototype.
-    group = frame.iloc[test_ids]["CODE_GENDER"].fillna("Unknown").astype(str).to_numpy() if "CODE_GENDER" in frame else np.repeat("All", len(test_ids))
+    gender_field = next((c for c in ("CODE_GENDER", "SEX") if c in frame), None)
+    group = frame.iloc[test_ids][gender_field].fillna("Unknown").astype(str).to_numpy() if gender_field else np.repeat("All", len(test_ids))
     test_metrics = binary_metrics(y_test, test_p, threshold)
     test_metrics["calibration"] = calibration_summary(y_test, test_p)
     test_metrics["scenario_cost"] = expected_cost(y_test, test_p, float(cfg["decision"]["false_approval_cost"]), float(cfg["decision"]["false_decline_cost"]), threshold)
     audit = subgroup_audit(y_test, test_p, group, threshold)
-    if "DAYS_BIRTH" in frame:
-        age = (-frame.iloc[test_ids]["DAYS_BIRTH"].astype(float) / 365.25).clip(lower=0)
+    if "DAYS_BIRTH" in frame or "AGE" in frame:
+        age = ((-frame.iloc[test_ids]["DAYS_BIRTH"].astype(float) / 365.25)
+               if "DAYS_BIRTH" in frame else frame.iloc[test_ids]["AGE"].astype(float)).clip(lower=0)
         age_band = pd.cut(age, bins=[0, 25, 35, 45, 55, 120], labels=["18-24", "25-34", "35-44", "45-54", "55+"]).astype("object").fillna("Unknown")
         audit["age_band"] = subgroup_audit(y_test, test_p, age_band.to_numpy(), threshold)
     report = {
@@ -136,3 +138,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

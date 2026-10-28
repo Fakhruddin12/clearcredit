@@ -1,4 +1,7 @@
-# ClearCredit: credit-risk model comparison and decision support
+# Earlier ClearCredit tabular workflow (v1)
+
+
+> The current behavioural/deep-learning study is documented in [research/v2](../research/v2/). The numerical results below describe the earlier saved run, before the UCI demographic-schema correction. The root CLI now excludes UCI SEX, AGE, EDUCATION and MARRIAGE, and audits SEX/AGE using their actual field names. Those corrections change the predictor set, so the old saved numbers are historical evidence rather than an exact expected output of rerunning the corrected CLI. The root API remains an earlier-workflow demonstration.
 
 ClearCredit is an end-to-end research project for comparing credit-default models and examining how probability calibration and decision thresholds affect a review workflow. It includes a measured benchmark on the UCI Default of Credit Card Clients dataset and a separate DuckDB/SQL feature-engineering extension for Home Credit data.
 
@@ -100,3 +103,4 @@ Dockerfile                 Container definition for the local API
 - Calibration and the chosen threshold do not establish fairness, legal compliance, or suitability for credit decisions.
 - The cost ratio is illustrative. A real decision policy would need validated business costs, policy constraints, explainability, governance, and jurisdiction-specific legal review.
 - Descriptive group checks in this dataset are not proof that a model treats people fairly.
+

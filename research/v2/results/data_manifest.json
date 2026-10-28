@@ -1,0 +1,28 @@
+{
+  "source_sha256": "30c6be3abd8dcfd3e6096c828bad8c2f011238620f5369220bd60cfc82700933",
+  "removed_development_rows_matching_reporting_features": 608,
+  "duplicate_feature_rows": 817,
+  "conflicting_label_feature_groups": 85,
+  "partitions": {
+    "fit": {
+      "n": 14036,
+      "default_rate": 0.21729837560558563,
+      "indices_sha256": "59409d0a0d0e59706c890187bcb2b9b41077ecd736087f5ac31f909becf3289d"
+    },
+    "tune": {
+      "n": 4678,
+      "default_rate": 0.2171868319794784,
+      "indices_sha256": "d7b0e5a1bdf87e13c9836eca28fcf7f26a8a78800e2278c29127ca17ebb8368f"
+    },
+    "calibration": {
+      "n": 4678,
+      "default_rate": 0.2171868319794784,
+      "indices_sha256": "19aab2bcd6dd3d8ac85b75a08f898645a616d0f6e0e1b5fb0e3a2fa3b8228acb"
+    },
+    "reporting": {
+      "n": 6000,
+      "default_rate": 0.22116666666666668,
+      "indices_sha256": "757bd2328670d1c0a05eddb34d3d33b5af03d1711956552a78f74c5684701144"
+    }
+  }
+}
