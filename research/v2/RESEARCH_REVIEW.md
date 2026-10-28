@@ -1,10 +1,10 @@
 # ClearCredit: behavioural credit-risk research and model challenge
 
-Research date: 28 October 2026. Prepared for Fakhruddin Hakim Hussain.
+Research date: 28 October 2026. Project: Fakhruddin Hakim Hussain / ClearCredit.
 
-## Assessment
+## Research question and findings
 
-The original project was a useful end-to-end classification demonstration, but its headline AUC, a calibrated score and an API did not establish a distinctive credit-risk contribution. Adding a neural network alone would not change that. The stronger project asks whether repayment trajectories add useful information, compares them fairly with simpler models, and identifies when a good-looking portfolio score hides a weak decision process.
+The first study compared tabular models and probability calibration. This extension asks whether ordered repayment trajectories add useful information, compares neural models with simpler baselines, and examines where an aggregate score hides a weak account-review process.
 
 I implemented and ran that extension. A three-seed monthly GRU was selected using development average precision. On the previously used 6,000-account reporting set, it achieved **0.777 ROC-AUC**, compared with **0.775 for LightGBM** and **0.765 for an improved logistic baseline**. The neural advantage over LightGBM is small and its paired confidence interval includes zero. At an exact 20% review capacity, LightGBM captures slightly more defaults. This is evidence for a more rigorous research project, not a claim of a breakthrough model.
 
@@ -32,7 +32,7 @@ This is a focused review of primary research and supervisory sources relevant to
 |---|---|---|
 | Lessmann et al. (2015), credit-scoring benchmark [4] | Evaluates 41 classifiers on eight credit datasets and examines the link between prediction measures and managerial value. | Keep credible simple and tree baselines; report a workload-dependent result as well as discrimination. |
 | Gorishniy et al. (NeurIPS 2021), tabular ResNet and FT-Transformer [5] | Establishes strong neural baselines under shared comparisons and finds no universally best family against boosted trees. | Implement a small residual network as a neural control. The implementation is inspired by that family, not an exact reproduction. |
-| Grinsztajn et al. (NeurIPS 2022) [6] | Shows that trees remain strong on medium-sized tabular benchmarks and investigates their different inductive biases. | Do not discard LightGBM merely to put deep learning on the CV. |
+| Grinsztajn et al. (NeurIPS 2022) [6] | Shows that trees remain strong on medium-sized tabular benchmarks and investigates their different inductive biases. | Retain LightGBM as a strong control rather than assume a neural model is superior. |
 | Clements et al. (2020), American Express/Rutgers [7] | Studies recurrent and temporal-convolution models for credit monitoring using much longer transaction histories. | Test an ordered-history GRU plus a static credit-limit branch. Six UCI monthly snapshots are much less information than the paper's sequences; its financial benefits cannot be transferred. |
 | Gorishniy et al. (ICLR 2025), TabM [8] | Shows the value of parameter-efficient MLP ensembling in tabular deep learning. | Use three independent seeds to reduce neural run-to-run variability in this experiment. This is conventional ensembling, **not an implementation or replication of TabM**. TabM remains a later challenger. |
 | Guo et al. (ICML 2017) [9] | Finds that neural classification accuracy and probability calibration can differ, and studies post-processing calibration. | Fit sigmoid recalibration on a separate calibration partition. The paper's image/text findings are motivation to check, not evidence that a particular credit calibrator will win. |

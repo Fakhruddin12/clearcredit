@@ -28,6 +28,6 @@
 
 **Monitoring specification, not a deployed monitor:** schema/units/ranges and missingness; account-history completeness; score and input distribution changes; matured-outcome AUC/AP/capture, risk-band observed/expected rates and workload; subgroup error and calibration changes. An input-drift statistic does not alone prove model failure. No universal numeric drift/approval thresholds have been validated.
 
-**Reproducibility:** pinned workbook SHA-256, partition hashes/indices, locked selection, all tuning histories, environment and seven contract checks included. The experiment generates three-seed weights, preprocessing, calibrators, split indices and predictions locally; those generated files are excluded from Git. Sample bootstrap intervals exclude retraining and model-selection uncertainty.
+**Reproducibility:** pinned workbook SHA-256, partition hashes, locked selection, all tuning histories, environment and seven contract checks included. The experiment generates three-seed weights, preprocessing, calibrators, split indices and predictions locally; those generated files are excluded from Git. Sample bootstrap intervals exclude retraining and model-selection uncertainty.
 
 **Remaining work:** external or genuinely later outcome-labelled data; earlier-deterioration study; latest-month and order-destroyed ablations; broader fair tuning; explanation fidelity; realistic intervention/workload economics; independent challenge. No claim these steps have already been completed.

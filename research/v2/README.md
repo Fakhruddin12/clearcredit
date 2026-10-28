@@ -42,7 +42,7 @@ The old reporting sample is already known from v1. Reproducing it does not produ
 - Generated `results_reproduced/models/`: preprocessing, calibrators and weights; created by the experiment and excluded from Git. Load only trusted locally generated joblib files.
 - `results/*.png`: calibration/capture and risk-decile figures.
 - `MODEL_CARD.md`: scope, limitations, appropriate interpretation and unresolved validation needs.
-- `RESEARCH_REVIEW.md`: analysis, sources and CV language.
+- `RESEARCH_REVIEW.md`: analysis and primary sources.
 
 The original Home Credit SQL extension is not included or credited with these results. Source data is not bundled. This package is not approved or validated for actual lending, pricing, credit-limit or collections decisions.
 
