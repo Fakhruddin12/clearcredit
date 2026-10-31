@@ -1,0 +1,1513 @@
+{
+  "protocol": {
+    "study": "Post-review challenge dated 31 October 2026, designed after inspecting v2 reporting results.",
+    "status": "Exploratory retrospective follow-up. Same reused cohort; not confirmatory or prospective evidence.",
+    "data_and_splits": "Exact v2 workbook and disjoint financial-input-group partitions; no reporting-driven retuning.",
+    "primary_objective": "Defaults captured at exactly 20% account-review capacity; AUC, AP, Brier and log loss secondary.",
+    "simple_rules": "Binary latest status>=1; nonnegative latest status severity. Seed20261031 random tie-break fixed without labels. Also show tie expectations and 200 alternate tie draws.",
+    "latest_models": "Credit limit plus latest status, balance and payment and two limit ratios; logistic and LightGBM search the same three v2 development presets. Single-status logistic uses only PAY_0 categories, C=1.",
+    "history_controls": "Original three-seed GRU; same 17-channel monthly inputs flattened into an MLP(32,32); GRU with jointly permuted monthly vectors within each account, seed7331; GRU with all status channels removed.",
+    "neural_budget": "Original selected width24, dropout0.2, 26 fixed epochs for GRU controls; MLP widths32,32 dropout0.2, 26 epochs. AdamW lr0.001 wd0.001, batch256, clip5. No new neural architecture search.",
+    "seeds": [
+      42,
+      137,
+      2026,
+      718,
+      9001
+    ],
+    "primary_ensemble": "First three original seeds. Additional two seeds are single-fit sensitivity only and do not change ensemble membership.",
+    "order_ablation": "One fixed independent within-account permutation, applied to all four numeric and thirteen status channels jointly. Fit/calibration/reporting use the permuted representation; this is not inference-only corruption.",
+    "subgroup": "PAY_0<1 means no latest code>=1, not absence of prior distress. Report within-group AUC/AP and exact20% subgroup queue separately from global-policy capture.",
+    "fixed_policy": "For new common comparison, threshold is 80th percentile of calibration scores. This differs from the v2 tuning-score policy; legacy85.2% is not carried into this policy.",
+    "uncertainty": "500 paired bootstrap draws of full financial-input groups, conditional on fitted models. No multiplicity adjustment or retraining uncertainty. Neural single-fit ranges are separate.",
+    "practical_decision": "GRU complexity requires at least2 percentage points of capture advantage over full-history LightGBM, positive paired lower95% bound, and no more than2x median inference time. This review-stage criterion is not prospectively validated.",
+    "no_new_cohort": "No new untouched outcomes are available. A later multi-vintage dataset remains required; arbitrary ID or feature-month splitting is not a valid replacement.",
+    "stop": "Run this fixed comparison once, retain negative findings, do not promote a reporting winner as a newly development-selected champion."
+  },
+  "metrics": {
+    "logistic": {
+      "auc": 0.7647239484921234,
+      "ap": 0.520420569247696,
+      "reviewed": 1200,
+      "defaults_captured": 664,
+      "capture_rate": 0.5003767897513187,
+      "precision": 0.5533333333333333,
+      "n": 6000,
+      "defaults": 1327,
+      "brier": 0.1388006509239931,
+      "log_loss": 0.4410972065062063,
+      "mean_prediction": 0.21369119112763996
+    },
+    "lightgbm": {
+      "auc": 0.7752929292375462,
+      "ap": 0.5495003238444554,
+      "reviewed": 1200,
+      "defaults_captured": 678,
+      "capture_rate": 0.5109269027882442,
+      "precision": 0.565,
+      "n": 6000,
+      "defaults": 1327,
+      "brier": 0.13576470637270355,
+      "log_loss": 0.43223022418739787,
+      "mean_prediction": 0.2164714491787453
+    },
+    "ordered_gru": {
+      "auc": 0.7772127588927783,
+      "ap": 0.5520593691228274,
+      "reviewed": 1200,
+      "defaults_captured": 671,
+      "capture_rate": 0.5056518462697814,
+      "precision": 0.5591666666666667,
+      "n": 6000,
+      "defaults": 1327,
+      "brier": 0.1355059643579892,
+      "log_loss": 0.43119182866493594,
+      "mean_prediction": 0.21559296950181137
+    },
+    "latest_status_logistic": {
+      "auc": 0.7008802189170225,
+      "ap": 0.44455224209458627,
+      "reviewed": 1200,
+      "defaults_captured": 616,
+      "capture_rate": 0.4642049736247174,
+      "precision": 0.5133333333333333,
+      "n": 6000,
+      "defaults": 1327,
+      "brier": 0.14303879780957834,
+      "log_loss": 0.4567815249050791,
+      "mean_prediction": 0.2167940652096491
+    },
+    "latest_logistic": {
+      "auc": 0.7376477385922529,
+      "ap": 0.4903427591103081,
+      "reviewed": 1200,
+      "defaults_captured": 626,
+      "capture_rate": 0.4717407686510927,
+      "precision": 0.5216666666666666,
+      "n": 6000,
+      "defaults": 1327,
+      "brier": 0.14225898039775564,
+      "log_loss": 0.4522299696066448,
+      "mean_prediction": 0.21556558670779785
+    },
+    "latest_lightgbm": {
+      "auc": 0.7586388706079965,
+      "ap": 0.5273970586546382,
+      "reviewed": 1200,
+      "defaults_captured": 637,
+      "capture_rate": 0.4800301431801055,
+      "precision": 0.5308333333333334,
+      "n": 6000,
+      "defaults": 1327,
+      "brier": 0.13916967672585628,
+      "log_loss": 0.44181884066245386,
+      "mean_prediction": 0.2160285786413667
+    },
+    "flat_mlp": {
+      "auc": 0.7730683135219706,
+      "ap": 0.5384488747760837,
+      "reviewed": 1200,
+      "defaults_captured": 665,
+      "capture_rate": 0.5011303692539563,
+      "precision": 0.5541666666666667,
+      "n": 6000,
+      "defaults": 1327,
+      "brier": 0.1364474777947193,
+      "log_loss": 0.4338358014127314,
+      "mean_prediction": 0.21567551396597545
+    },
+    "shuffled_gru": {
+      "auc": 0.7681646444622227,
+      "ap": 0.5310150613917194,
+      "reviewed": 1200,
+      "defaults_captured": 648,
+      "capture_rate": 0.4883195177091183,
+      "precision": 0.54,
+      "n": 6000,
+      "defaults": 1327,
+      "brier": 0.13972992621969635,
+      "log_loss": 0.4407495010631976,
+      "mean_prediction": 0.2141516312072186
+    },
+    "no_status_gru": {
+      "auc": 0.7310382351693764,
+      "ap": 0.45151668065501827,
+      "reviewed": 1200,
+      "defaults_captured": 559,
+      "capture_rate": 0.4212509419743783,
+      "precision": 0.4658333333333333,
+      "n": 6000,
+      "defaults": 1327,
+      "brier": 0.1501678693833938,
+      "log_loss": 0.4666916108633854,
+      "mean_prediction": 0.2162797646870932
+    },
+    "binary_rule": {
+      "auc": 0.6776347988919978,
+      "ap": 0.359096599709648,
+      "reviewed": 1200,
+      "defaults_captured": 593,
+      "capture_rate": 0.4468726450640543,
+      "precision": 0.49416666666666664,
+      "n": 6000,
+      "defaults": 1327
+    },
+    "severity_rule": {
+      "auc": 0.6908670292599456,
+      "ap": 0.42523555186530937,
+      "reviewed": 1200,
+      "defaults_captured": 616,
+      "capture_rate": 0.4642049736247174,
+      "precision": 0.5133333333333333,
+      "n": 6000,
+      "defaults": 1327
+    }
+  },
+  "simple_rules": {
+    "binary_rule": {
+      "expected_defaults_at20": 598.1873111782478,
+      "expected_capture_at20": 0.45078169644178434,
+      "tie_seed_range_defaults": [
+        582,
+        616
+      ],
+      "tie_draws": 200,
+      "note": "Tie sensitivity range, not a confidence interval."
+    },
+    "severity_rule": {
+      "expected_defaults_at20": 620.1686046511628,
+      "expected_capture_at20": 0.46734634864443314,
+      "tie_seed_range_defaults": [
+        606,
+        632
+      ],
+      "tie_draws": 200,
+      "note": "Tie sensitivity range, not a confidence interval."
+    },
+    "unconstrained_binary": {
+      "reviewed": 1324,
+      "review_fraction": 0.22066666666666668,
+      "defaults_captured": 660,
+      "capture_rate": 0.49736247174076864
+    }
+  },
+  "cluster_bootstrap_ci95": {
+    "logistic": {
+      "auc": [
+        0.7466792927430669,
+        0.7796384246668195
+      ],
+      "ap": [
+        0.4889158447890371,
+        0.5510304654666529
+      ],
+      "capture_rate": [
+        0.47263162514125223,
+        0.523710680224104
+      ]
+    },
+    "lightgbm": {
+      "auc": [
+        0.7584933760399819,
+        0.7894804303908226
+      ],
+      "ap": [
+        0.5188737045014479,
+        0.5791551908125443
+      ],
+      "capture_rate": [
+        0.48648858740967205,
+        0.5325418236047645
+      ]
+    },
+    "ordered_gru": {
+      "auc": [
+        0.7609570444791088,
+        0.7917823634411874
+      ],
+      "ap": [
+        0.5194175984637279,
+        0.5799042076256611
+      ],
+      "capture_rate": [
+        0.4799201520912547,
+        0.5293473354123951
+      ]
+    },
+    "latest_status_logistic": {
+      "auc": [
+        0.6807357423242065,
+        0.7201049792900438
+      ],
+      "ap": [
+        0.41499086845362293,
+        0.47033795054555116
+      ],
+      "capture_rate": [
+        0.4413555125892654,
+        0.4854458841463415
+      ]
+    },
+    "latest_logistic": {
+      "auc": [
+        0.7196018382695764,
+        0.7542489644602054
+      ],
+      "ap": [
+        0.4602996568303179,
+        0.5217333709653953
+      ],
+      "capture_rate": [
+        0.44911892453536784,
+        0.49619510573430203
+      ]
+    },
+    "latest_lightgbm": {
+      "auc": [
+        0.7432750586505789,
+        0.7731436214530363
+      ],
+      "ap": [
+        0.4976093888227809,
+        0.5551586073300819
+      ],
+      "capture_rate": [
+        0.4585128195097963,
+        0.5030038593868214
+      ]
+    },
+    "flat_mlp": {
+      "auc": [
+        0.7556481801013599,
+        0.7876201297031334
+      ],
+      "ap": [
+        0.5054563599699177,
+        0.5678962588522906
+      ],
+      "capture_rate": [
+        0.4771865174169734,
+        0.525603525865984
+      ]
+    },
+    "shuffled_gru": {
+      "auc": [
+        0.750684274418413,
+        0.7829545897829865
+      ],
+      "ap": [
+        0.49955563162625194,
+        0.5601113130797553
+      ],
+      "capture_rate": [
+        0.4629285049514554,
+        0.5101408145171938
+      ]
+    },
+    "no_status_gru": {
+      "auc": [
+        0.7132281483397122,
+        0.7456851013639582
+      ],
+      "ap": [
+        0.42140717178090836,
+        0.4818046869701804
+      ],
+      "capture_rate": [
+        0.3978256742729952,
+        0.4478962965094327
+      ]
+    },
+    "binary_rule": {
+      "auc": [
+        0.662263013778405,
+        0.6929006544201208
+      ],
+      "ap": [
+        0.3342947423154236,
+        0.38135983724883527
+      ],
+      "capture_rate": [
+        0.4238377893626007,
+        0.47030094860836025
+      ]
+    },
+    "severity_rule": {
+      "auc": [
+        0.6751075327115948,
+        0.7067529594475429
+      ],
+      "ap": [
+        0.3981729528252806,
+        0.45195451202899606
+      ],
+      "capture_rate": [
+        0.4413555125892654,
+        0.4854458841463415
+      ]
+    }
+  },
+  "paired_differences": {
+    "ordered_gru minus lightgbm": {
+      "auc": {
+        "mean": 0.001908546308577235,
+        "ci95": [
+          -0.003114435527207862,
+          0.00708578608889805
+        ]
+      },
+      "ap": {
+        "mean": 0.0022009850345281155,
+        "ci95": [
+          -0.009151777916343364,
+          0.012276874525861691
+        ]
+      },
+      "capture_rate": {
+        "mean": -0.0038412297024848696,
+        "ci95": [
+          -0.020511559456679318,
+          0.010345614175001414
+        ]
+      }
+    },
+    "ordered_gru minus shuffled_gru": {
+      "auc": {
+        "mean": 0.009102374732530023,
+        "ci95": [
+          0.004700447325907192,
+          0.013207608771849557
+        ]
+      },
+      "ap": {
+        "mean": 0.021162103886742473,
+        "ci95": [
+          0.009800019918588932,
+          0.03273336281934169
+        ]
+      },
+      "capture_rate": {
+        "mean": 0.01868893896835405,
+        "ci95": [
+          0.006104198885762737,
+          0.030725353831137146
+        ]
+      }
+    },
+    "ordered_gru minus flat_mlp": {
+      "auc": {
+        "mean": 0.004115349621641746,
+        "ci95": [
+          0.0008944079565441688,
+          0.007581145984597847
+        ]
+      },
+      "ap": {
+        "mean": 0.013198747462303316,
+        "ci95": [
+          0.006457176099963971,
+          0.02066881425465456
+        ]
+      },
+      "capture_rate": {
+        "mean": 0.004022981371769095,
+        "ci95": [
+          -0.004418771740987053,
+          0.01152959262106074
+        ]
+      }
+    },
+    "ordered_gru minus no_status_gru": {
+      "auc": {
+        "mean": 0.046211693527861995,
+        "ci95": [
+          0.03658754563027536,
+          0.056088001831813186
+        ]
+      },
+      "ap": {
+        "mean": 0.10045834615752565,
+        "ci95": [
+          0.08068018907138573,
+          0.12116458318521188
+        ]
+      },
+      "capture_rate": {
+        "mean": 0.08362127442217765,
+        "ci95": [
+          0.06433313345896866,
+          0.10233285931488402
+        ]
+      }
+    },
+    "lightgbm minus latest_lightgbm": {
+      "auc": {
+        "mean": 0.016616316772085093,
+        "ci95": [
+          0.007471603197315355,
+          0.025403343357147327
+        ]
+      },
+      "ap": {
+        "mean": 0.022314325802198384,
+        "ci95": [
+          0.009873271009665549,
+          0.035227437214286415
+        ]
+      },
+      "capture_rate": {
+        "mean": 0.02835938723043266,
+        "ci95": [
+          0.012685861267839361,
+          0.04629957163983747
+        ]
+      }
+    },
+    "lightgbm minus latest_status_logistic": {
+      "auc": {
+        "mean": 0.07443818561732875,
+        "ci95": [
+          0.058091049242741055,
+          0.09112712419765832
+        ]
+      },
+      "ap": {
+        "mean": 0.10518697449993931,
+        "ci95": [
+          0.08896335016128275,
+          0.11955008822342227
+        ]
+      },
+      "capture_rate": {
+        "mean": 0.04705200034183453,
+        "ci95": [
+          0.029364233379891715,
+          0.06505349815455624
+        ]
+      }
+    },
+    "lightgbm minus severity_rule": {
+      "auc": {
+        "mean": 0.08443775309797925,
+        "ci95": [
+          0.07149016655673994,
+          0.0976048922114086
+        ]
+      },
+      "ap": {
+        "mean": 0.12434450519251442,
+        "ci95": [
+          0.10680567832330273,
+          0.13976134437992555
+        ]
+      },
+      "capture_rate": {
+        "mean": 0.04705200034183453,
+        "ci95": [
+          0.029364233379891715,
+          0.06505349815455624
+        ]
+      }
+    },
+    "lightgbm minus binary_rule": {
+      "auc": {
+        "mean": 0.09768973923613875,
+        "ci95": [
+          0.08394274908241722,
+          0.110648908183152
+        ]
+      },
+      "ap": {
+        "mean": 0.19090136109226183,
+        "ci95": [
+          0.17078921949197443,
+          0.2097770611751056
+        ]
+      },
+      "capture_rate": {
+        "mean": 0.0631210605425856,
+        "ci95": [
+          0.0418436409396981,
+          0.08445577615513043
+        ]
+      }
+    }
+  },
+  "fixed_calibration_policy": {
+    "logistic": {
+      "threshold": 0.30204993861773904,
+      "review_fraction": 0.18616666666666667,
+      "defaults_captured": 639,
+      "capture_rate": 0.48153730218538054,
+      "missed_defaults": 688,
+      "nondefault_reviews": 478,
+      "no_latest_delay": {
+        "threshold": 0.30204993861773904,
+        "review_fraction": 0.03721129170230967,
+        "defaults_captured": 72,
+        "capture_rate": 0.10794602698650675,
+        "missed_defaults": 595,
+        "nondefault_reviews": 102
+      }
+    },
+    "lightgbm": {
+      "threshold": 0.323962102622763,
+      "review_fraction": 0.19183333333333333,
+      "defaults_captured": 658,
+      "capture_rate": 0.4958553127354936,
+      "missed_defaults": 669,
+      "nondefault_reviews": 493,
+      "no_latest_delay": {
+        "threshold": 0.323962102622763,
+        "review_fraction": 0.04298545765611634,
+        "defaults_captured": 81,
+        "capture_rate": 0.12143928035982009,
+        "missed_defaults": 586,
+        "nondefault_reviews": 120
+      }
+    },
+    "ordered_gru": {
+      "threshold": 0.31522396445379935,
+      "review_fraction": 0.1905,
+      "defaults_captured": 657,
+      "capture_rate": 0.49510173323285606,
+      "missed_defaults": 670,
+      "nondefault_reviews": 486,
+      "no_latest_delay": {
+        "threshold": 0.31522396445379935,
+        "review_fraction": 0.04020530367835757,
+        "defaults_captured": 85,
+        "capture_rate": 0.12743628185907047,
+        "missed_defaults": 582,
+        "nondefault_reviews": 103
+      }
+    },
+    "latest_status_logistic": {
+      "threshold": 0.3209441909399788,
+      "review_fraction": 0.22066666666666668,
+      "defaults_captured": 660,
+      "capture_rate": 0.49736247174076864,
+      "missed_defaults": 667,
+      "nondefault_reviews": 664,
+      "no_latest_delay": {
+        "threshold": 0.3209441909399788,
+        "review_fraction": 0.0,
+        "defaults_captured": 0,
+        "capture_rate": 0.0,
+        "missed_defaults": 667,
+        "nondefault_reviews": 0
+      }
+    },
+    "latest_logistic": {
+      "threshold": 0.2613600446597336,
+      "review_fraction": 0.19433333333333333,
+      "defaults_captured": 617,
+      "capture_rate": 0.46495855312735496,
+      "missed_defaults": 710,
+      "nondefault_reviews": 549,
+      "no_latest_delay": {
+        "threshold": 0.2613600446597336,
+        "review_fraction": 0.016467065868263474,
+        "defaults_captured": 23,
+        "capture_rate": 0.034482758620689655,
+        "missed_defaults": 644,
+        "nondefault_reviews": 54
+      }
+    },
+    "latest_lightgbm": {
+      "threshold": 0.27709162273912646,
+      "review_fraction": 0.19633333333333333,
+      "defaults_captured": 632,
+      "capture_rate": 0.4762622456669179,
+      "missed_defaults": 695,
+      "nondefault_reviews": 546,
+      "no_latest_delay": {
+        "threshold": 0.27709162273912646,
+        "review_fraction": 0.042557741659538066,
+        "defaults_captured": 57,
+        "capture_rate": 0.08545727136431784,
+        "missed_defaults": 610,
+        "nondefault_reviews": 142
+      }
+    },
+    "flat_mlp": {
+      "threshold": 0.3077522743588283,
+      "review_fraction": 0.19,
+      "defaults_captured": 653,
+      "capture_rate": 0.492087415222306,
+      "missed_defaults": 674,
+      "nondefault_reviews": 487,
+      "no_latest_delay": {
+        "threshold": 0.3077522743588283,
+        "review_fraction": 0.04127459366980325,
+        "defaults_captured": 86,
+        "capture_rate": 0.12893553223388307,
+        "missed_defaults": 581,
+        "nondefault_reviews": 107
+      }
+    },
+    "shuffled_gru": {
+      "threshold": 0.360324911006304,
+      "review_fraction": 0.19066666666666668,
+      "defaults_captured": 627,
+      "capture_rate": 0.4724943481537302,
+      "missed_defaults": 700,
+      "nondefault_reviews": 517,
+      "no_latest_delay": {
+        "threshold": 0.360324911006304,
+        "review_fraction": 0.0641573994867408,
+        "defaults_captured": 104,
+        "capture_rate": 0.15592203898050974,
+        "missed_defaults": 563,
+        "nondefault_reviews": 196
+      }
+    },
+    "no_status_gru": {
+      "threshold": 0.31951319207915957,
+      "review_fraction": 0.19266666666666668,
+      "defaults_captured": 548,
+      "capture_rate": 0.4129615674453655,
+      "missed_defaults": 779,
+      "nondefault_reviews": 608,
+      "no_latest_delay": {
+        "threshold": 0.31951319207915957,
+        "review_fraction": 0.09174508126603935,
+        "defaults_captured": 127,
+        "capture_rate": 0.1904047976011994,
+        "missed_defaults": 540,
+        "nondefault_reviews": 302
+      }
+    }
+  },
+  "no_latest_delay": {
+    "definition": "PAY_0<1; previous delays may exist",
+    "n": 4676,
+    "defaults": 667,
+    "accounts_with_earlier_delay": 641,
+    "metrics": {
+      "logistic": {
+        "auc": 0.6622260708009678,
+        "ap": 0.24920644250107543,
+        "reviewed": 936,
+        "defaults_captured": 247,
+        "capture_rate": 0.37031484257871067,
+        "precision": 0.2638888888888889,
+        "n": 4676,
+        "defaults": 667,
+        "brier": 0.11704444274675499,
+        "log_loss": 0.3897048199065343,
+        "mean_prediction": 0.1375108363184949
+      },
+      "lightgbm": {
+        "auc": 0.6789407117344296,
+        "ap": 0.26701465686455567,
+        "reviewed": 936,
+        "defaults_captured": 253,
+        "capture_rate": 0.3793103448275862,
+        "precision": 0.2702991452991453,
+        "n": 4676,
+        "defaults": 667,
+        "brier": 0.1154665616859733,
+        "log_loss": 0.3838690290995865,
+        "mean_prediction": 0.13960606743645224
+      },
+      "ordered_gru": {
+        "auc": 0.6831568625764443,
+        "ap": 0.2742149008178384,
+        "reviewed": 936,
+        "defaults_captured": 251,
+        "capture_rate": 0.37631184407796103,
+        "precision": 0.26816239316239315,
+        "n": 4676,
+        "defaults": 667,
+        "brier": 0.1150276669395219,
+        "log_loss": 0.3822685908175148,
+        "mean_prediction": 0.13645008694296132
+      },
+      "latest_status_logistic": {
+        "auc": 0.5235203550631767,
+        "ap": 0.15109192217487416,
+        "reviewed": 936,
+        "defaults_captured": 162,
+        "capture_rate": 0.24287856071964017,
+        "precision": 0.17307692307692307,
+        "n": 4676,
+        "defaults": 667,
+        "brier": 0.12208434875859117,
+        "log_loss": 0.40896312369052384,
+        "mean_prediction": 0.1399604554160026
+      },
+      "latest_logistic": {
+        "auc": 0.6071569478418685,
+        "ap": 0.20190457426495742,
+        "reviewed": 936,
+        "defaults_captured": 212,
+        "capture_rate": 0.31784107946026985,
+        "precision": 0.2264957264957265,
+        "n": 4676,
+        "defaults": 667,
+        "brier": 0.12008190141553843,
+        "log_loss": 0.4008536892562906,
+        "mean_prediction": 0.13870015301875127
+      },
+      "latest_lightgbm": {
+        "auc": 0.6511004288327276,
+        "ap": 0.2319343212488698,
+        "reviewed": 936,
+        "defaults_captured": 234,
+        "capture_rate": 0.35082458770614694,
+        "precision": 0.25,
+        "n": 4676,
+        "defaults": 667,
+        "brier": 0.11788433595705268,
+        "log_loss": 0.3916556145875773,
+        "mean_prediction": 0.14110746501330332
+      },
+      "flat_mlp": {
+        "auc": 0.6749938201266042,
+        "ap": 0.2653732330074864,
+        "reviewed": 936,
+        "defaults_captured": 247,
+        "capture_rate": 0.37031484257871067,
+        "precision": 0.2638888888888889,
+        "n": 4676,
+        "defaults": 667,
+        "brier": 0.11566473938840355,
+        "log_loss": 0.3843535703078976,
+        "mean_prediction": 0.13903673532603042
+      },
+      "shuffled_gru": {
+        "auc": 0.6746116216025188,
+        "ap": 0.2533714048007664,
+        "reviewed": 936,
+        "defaults_captured": 247,
+        "capture_rate": 0.37031484257871067,
+        "precision": 0.2638888888888889,
+        "n": 4676,
+        "defaults": 667,
+        "brier": 0.11767137509524118,
+        "log_loss": 0.3887564230104436,
+        "mean_prediction": 0.1496610955879114
+      },
+      "no_status_gru": {
+        "auc": 0.6707475646063225,
+        "ap": 0.2507078009568798,
+        "reviewed": 936,
+        "defaults_captured": 240,
+        "capture_rate": 0.3598200899550225,
+        "precision": 0.2564102564102564,
+        "n": 4676,
+        "defaults": 667,
+        "brier": 0.11857856108287118,
+        "log_loss": 0.3914504510792541,
+        "mean_prediction": 0.17050671862568995
+      },
+      "binary_rule": {
+        "auc": 0.5,
+        "ap": 0.14264328485885372,
+        "reviewed": 936,
+        "defaults_captured": 130,
+        "capture_rate": 0.19490254872563717,
+        "precision": 0.1388888888888889,
+        "n": 4676,
+        "defaults": 667
+      },
+      "severity_rule": {
+        "auc": 0.5,
+        "ap": 0.14264328485885372,
+        "reviewed": 936,
+        "defaults_captured": 130,
+        "capture_rate": 0.19490254872563717,
+        "precision": 0.1388888888888889,
+        "n": 4676,
+        "defaults": 667
+      }
+    },
+    "cluster_bootstrap_ci95": {
+      "logistic": {
+        "auc": [
+          0.6367681151200291,
+          0.6851904546644024
+        ],
+        "ap": [
+          0.21864636956857927,
+          0.27655429066104864
+        ],
+        "capture_rate": [
+          0.3317901234567901,
+          0.401207821257017
+        ]
+      },
+      "lightgbm": {
+        "auc": [
+          0.6550541295760495,
+          0.699897304664755
+        ],
+        "ap": [
+          0.2366466809737032,
+          0.29831556239454027
+        ],
+        "capture_rate": [
+          0.34200857930560363,
+          0.40799935115937574
+        ]
+      },
+      "ordered_gru": {
+        "auc": [
+          0.6598079895058148,
+          0.7050363805050329
+        ],
+        "ap": [
+          0.24109864002724482,
+          0.3067353585736744
+        ],
+        "capture_rate": [
+          0.34118793014255683,
+          0.4096580765723533
+        ]
+      },
+      "latest_status_logistic": {
+        "auc": [
+          0.4981562728478583,
+          0.5484218469942627
+        ],
+        "ap": [
+          0.13725513392659588,
+          0.16482108523467362
+        ],
+        "capture_rate": [
+          0.21162444113263784,
+          0.274639772663955
+        ]
+      },
+      "latest_logistic": {
+        "auc": [
+          0.5808478606016317,
+          0.6307174739649273
+        ],
+        "ap": [
+          0.17892756697510598,
+          0.22752069799124747
+        ],
+        "capture_rate": [
+          0.2811789958101518,
+          0.34872106064247377
+        ]
+      },
+      "latest_lightgbm": {
+        "auc": [
+          0.628951013151123,
+          0.6716084050865943
+        ],
+        "ap": [
+          0.20654087277435187,
+          0.2595669268174465
+        ],
+        "capture_rate": [
+          0.3155872372219549,
+          0.3803348526412355
+        ]
+      },
+      "flat_mlp": {
+        "auc": [
+          0.6494082475217765,
+          0.6970362356079801
+        ],
+        "ap": [
+          0.23248862175151014,
+          0.29603416779560554
+        ],
+        "capture_rate": [
+          0.3343892688323444,
+          0.4025620107743562
+        ]
+      },
+      "shuffled_gru": {
+        "auc": [
+          0.6485886771867457,
+          0.6964593790901245
+        ],
+        "ap": [
+          0.225463805747638,
+          0.2829857373404013
+        ],
+        "capture_rate": [
+          0.3307964168944632,
+          0.40482998955152555
+        ]
+      },
+      "no_status_gru": {
+        "auc": [
+          0.6474957019417547,
+          0.69237157336878
+        ],
+        "ap": [
+          0.22066339764446663,
+          0.28056218797298477
+        ],
+        "capture_rate": [
+          0.32624014278962166,
+          0.3908900295222759
+        ]
+      },
+      "binary_rule": {
+        "auc": [
+          0.5,
+          0.5
+        ],
+        "ap": [
+          0.1323483880281945,
+          0.15303594814336358
+        ],
+        "capture_rate": [
+          0.16823967536470105,
+          0.22098802026392375
+        ]
+      },
+      "severity_rule": {
+        "auc": [
+          0.5,
+          0.5
+        ],
+        "ap": [
+          0.1323483880281945,
+          0.15303594814336358
+        ],
+        "capture_rate": [
+          0.16823967536470105,
+          0.22098802026392375
+        ]
+      }
+    },
+    "paired_differences": {
+      "ordered_gru minus lightgbm": {
+        "auc": {
+          "mean": 0.004174902138373137,
+          "ci95": [
+            -0.00826352626644983,
+            0.014831506149466916
+          ]
+        },
+        "ap": {
+          "mean": 0.006826724063129638,
+          "ci95": [
+            -0.007517886729214945,
+            0.021426444235464366
+          ]
+        },
+        "capture_rate": {
+          "mean": -0.003279944040950511,
+          "ci95": [
+            -0.02870313958237782,
+            0.02103009710707936
+          ]
+        }
+      },
+      "ordered_gru minus shuffled_gru": {
+        "auc": {
+          "mean": 0.00832136580187799,
+          "ci95": [
+            0.0005912036865127119,
+            0.016234619836777108
+          ]
+        },
+        "ap": {
+          "mean": 0.020190374780059608,
+          "ci95": [
+            0.007251074376665734,
+            0.032636320042696024
+          ]
+        },
+        "capture_rate": {
+          "mean": 0.00551825868306803,
+          "ci95": [
+            -0.016166314263993172,
+            0.0274135539940828
+          ]
+        }
+      },
+      "ordered_gru minus flat_mlp": {
+        "auc": {
+          "mean": 0.008170784270359686,
+          "ci95": [
+            0.0018199235553694349,
+            0.01481107101141671
+          ]
+        },
+        "ap": {
+          "mean": 0.008991499115719144,
+          "ci95": [
+            -0.0011830056093855808,
+            0.019960972522328004
+          ]
+        },
+        "capture_rate": {
+          "mean": 0.006767218207626474,
+          "ci95": [
+            -0.013051722751482944,
+            0.027317137216275558
+          ]
+        }
+      },
+      "ordered_gru minus no_status_gru": {
+        "auc": {
+          "mean": 0.01240387443892037,
+          "ci95": [
+            0.002868942951468587,
+            0.022750182274802484
+          ]
+        },
+        "ap": {
+          "mean": 0.023340205620020225,
+          "ci95": [
+            0.008968256668768996,
+            0.038415773140508536
+          ]
+        },
+        "capture_rate": {
+          "mean": 0.013559507243478484,
+          "ci95": [
+            -0.01334355297531219,
+            0.03754864018948525
+          ]
+        }
+      },
+      "lightgbm minus latest_lightgbm": {
+        "auc": {
+          "mean": 0.0274632100712107,
+          "ci95": [
+            0.010331795787451954,
+            0.04541351281606277
+          ]
+        },
+        "ap": {
+          "mean": 0.034816847328466995,
+          "ci95": [
+            0.013357832482979549,
+            0.05517284923953248
+          ]
+        },
+        "capture_rate": {
+          "mean": 0.030205500502535797,
+          "ci95": [
+            -0.00543783126811411,
+            0.06259263975135002
+          ]
+        }
+      },
+      "lightgbm minus latest_status_logistic": {
+        "auc": {
+          "mean": 0.15394736351321223,
+          "ci95": [
+            0.12325995995897245,
+            0.18561346302719176
+          ]
+        },
+        "ap": {
+          "mean": 0.11639006407055118,
+          "ci95": [
+            0.09161438393154236,
+            0.14396020411574717
+          ]
+        },
+        "capture_rate": {
+          "mean": 0.13537746360796712,
+          "ci95": [
+            0.08735583941605839,
+            0.1790060698027314
+          ]
+        }
+      },
+      "lightgbm minus severity_rule": {
+        "auc": {
+          "mean": 0.17780198356785593,
+          "ci95": [
+            0.15505412957604944,
+            0.19989730466475494
+          ]
+        },
+        "ap": {
+          "mean": 0.1250656967301122,
+          "ci95": [
+            0.09853264539163736,
+            0.1527169542426349
+          ]
+        },
+        "capture_rate": {
+          "mean": 0.18164885484296941,
+          "ci95": [
+            0.13786237538656576,
+            0.22385126517730858
+          ]
+        }
+      },
+      "lightgbm minus binary_rule": {
+        "auc": {
+          "mean": 0.17780198356785593,
+          "ci95": [
+            0.15505412957604944,
+            0.19989730466475494
+          ]
+        },
+        "ap": {
+          "mean": 0.1250656967301122,
+          "ci95": [
+            0.09853264539163736,
+            0.1527169542426349
+          ]
+        },
+        "capture_rate": {
+          "mean": 0.18164885484296941,
+          "ci95": [
+            0.13786237538656576,
+            0.22385126517730858
+          ]
+        }
+      }
+    }
+  },
+  "seed_metrics": {
+    "ordered_gru": [
+      {
+        "seed": 42,
+        "auc": 0.7777706463931795,
+        "ap": 0.5525072871811203,
+        "reviewed": 1200,
+        "defaults_captured": 674,
+        "capture_rate": 0.5079125847776941,
+        "precision": 0.5616666666666666,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.13550298720324735,
+        "log_loss": 0.43113296489534075,
+        "mean_prediction": 0.21594695225841287
+      },
+      {
+        "seed": 137,
+        "auc": 0.7776309930978053,
+        "ap": 0.5519899630506613,
+        "reviewed": 1200,
+        "defaults_captured": 671,
+        "capture_rate": 0.5056518462697814,
+        "precision": 0.5591666666666667,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.13537066510658446,
+        "log_loss": 0.43083699641592027,
+        "mean_prediction": 0.21535490433216653
+      },
+      {
+        "seed": 2026,
+        "auc": 0.7745017755803796,
+        "ap": 0.5480097037365123,
+        "reviewed": 1200,
+        "defaults_captured": 673,
+        "capture_rate": 0.5071590052750565,
+        "precision": 0.5608333333333333,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.13597201208762938,
+        "log_loss": 0.43268691489388145,
+        "mean_prediction": 0.21550381250713901
+      },
+      {
+        "seed": 718,
+        "auc": 0.7777035612074108,
+        "ap": 0.5503380655391202,
+        "reviewed": 1200,
+        "defaults_captured": 669,
+        "capture_rate": 0.5041446872645065,
+        "precision": 0.5575,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.13546053463745106,
+        "log_loss": 0.43105650852218097,
+        "mean_prediction": 0.2150858279248762
+      },
+      {
+        "seed": 9001,
+        "auc": 0.7759699090689334,
+        "ap": 0.5496214824232091,
+        "reviewed": 1200,
+        "defaults_captured": 670,
+        "capture_rate": 0.5048982667671439,
+        "precision": 0.5583333333333333,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.13579751829377334,
+        "log_loss": 0.4321052292092201,
+        "mean_prediction": 0.2154054331882491
+      }
+    ],
+    "flat_mlp": [
+      {
+        "seed": 42,
+        "auc": 0.7727317587558666,
+        "ap": 0.5401227059063458,
+        "reviewed": 1200,
+        "defaults_captured": 675,
+        "capture_rate": 0.5086661642803316,
+        "precision": 0.5625,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.1363311341028942,
+        "log_loss": 0.43366850939229395,
+        "mean_prediction": 0.216268838240365
+      },
+      {
+        "seed": 137,
+        "auc": 0.773081133888001,
+        "ap": 0.5363175611229236,
+        "reviewed": 1200,
+        "defaults_captured": 669,
+        "capture_rate": 0.5041446872645065,
+        "precision": 0.5575,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.13660951052154102,
+        "log_loss": 0.43436733697418306,
+        "mean_prediction": 0.21569506704376146
+      },
+      {
+        "seed": 2026,
+        "auc": 0.7678755008610609,
+        "ap": 0.5329127144519501,
+        "reviewed": 1200,
+        "defaults_captured": 659,
+        "capture_rate": 0.49660889223813115,
+        "precision": 0.5491666666666667,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.13730689026151455,
+        "log_loss": 0.4364939249336013,
+        "mean_prediction": 0.21515808354615282
+      },
+      {
+        "seed": 718,
+        "auc": 0.7727954574298538,
+        "ap": 0.5355678839806907,
+        "reviewed": 1200,
+        "defaults_captured": 659,
+        "capture_rate": 0.49660889223813115,
+        "precision": 0.5491666666666667,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.13689038905377232,
+        "log_loss": 0.43453676365265637,
+        "mean_prediction": 0.2157458691416623
+      },
+      {
+        "seed": 9001,
+        "auc": 0.7714543987643425,
+        "ap": 0.536313890262838,
+        "reviewed": 1200,
+        "defaults_captured": 661,
+        "capture_rate": 0.4981160512434062,
+        "precision": 0.5508333333333333,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.13681659317633674,
+        "log_loss": 0.43485375611586186,
+        "mean_prediction": 0.2161062689680809
+      }
+    ],
+    "shuffled_gru": [
+      {
+        "seed": 42,
+        "auc": 0.7676252215141546,
+        "ap": 0.530714034789515,
+        "reviewed": 1200,
+        "defaults_captured": 647,
+        "capture_rate": 0.4875659382064808,
+        "precision": 0.5391666666666667,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.13963053617582993,
+        "log_loss": 0.44071277459996544,
+        "mean_prediction": 0.21460339993120783
+      },
+      {
+        "seed": 137,
+        "auc": 0.7689757140339145,
+        "ap": 0.5326939785728163,
+        "reviewed": 1200,
+        "defaults_captured": 646,
+        "capture_rate": 0.48681235870384326,
+        "precision": 0.5383333333333333,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.13947272169623046,
+        "log_loss": 0.44004098132616853,
+        "mean_prediction": 0.2142522695635392
+      },
+      {
+        "seed": 2026,
+        "auc": 0.7640029440075754,
+        "ap": 0.5255990792399502,
+        "reviewed": 1200,
+        "defaults_captured": 646,
+        "capture_rate": 0.48681235870384326,
+        "precision": 0.5383333333333333,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.14059907052456216,
+        "log_loss": 0.44324113883105604,
+        "mean_prediction": 0.21367879786133911
+      },
+      {
+        "seed": 718,
+        "auc": 0.7675892599842834,
+        "ap": 0.5307448409284844,
+        "reviewed": 1200,
+        "defaults_captured": 647,
+        "capture_rate": 0.4875659382064808,
+        "precision": 0.5391666666666667,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.13961555978615728,
+        "log_loss": 0.44071934684089403,
+        "mean_prediction": 0.21445285362535196
+      },
+      {
+        "seed": 9001,
+        "auc": 0.7674699257595986,
+        "ap": 0.5333713624808719,
+        "reviewed": 1200,
+        "defaults_captured": 642,
+        "capture_rate": 0.48379804069329313,
+        "precision": 0.535,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.139921062294678,
+        "log_loss": 0.4414435116470966,
+        "mean_prediction": 0.21414654771118455
+      }
+    ],
+    "no_status_gru": [
+      {
+        "seed": 42,
+        "auc": 0.7291533188379878,
+        "ap": 0.45020999841306986,
+        "reviewed": 1200,
+        "defaults_captured": 566,
+        "capture_rate": 0.426525998492841,
+        "precision": 0.4716666666666667,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.15027981568245913,
+        "log_loss": 0.46731687324425875,
+        "mean_prediction": 0.21625066071472762
+      },
+      {
+        "seed": 137,
+        "auc": 0.731182242551327,
+        "ap": 0.4524259707968259,
+        "reviewed": 1200,
+        "defaults_captured": 560,
+        "capture_rate": 0.42200452147701584,
+        "precision": 0.4666666666666667,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.15018082217484785,
+        "log_loss": 0.4666366220978975,
+        "mean_prediction": 0.21671131443366828
+      },
+      {
+        "seed": 2026,
+        "auc": 0.7307325621654711,
+        "ap": 0.4485939696458391,
+        "reviewed": 1200,
+        "defaults_captured": 559,
+        "capture_rate": 0.4212509419743783,
+        "precision": 0.4658333333333333,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.15036886780019718,
+        "log_loss": 0.46710167290171545,
+        "mean_prediction": 0.215936118614491
+      },
+      {
+        "seed": 718,
+        "auc": 0.7317427102511808,
+        "ap": 0.4509259993453538,
+        "reviewed": 1200,
+        "defaults_captured": 563,
+        "capture_rate": 0.4242652599849284,
+        "precision": 0.4691666666666667,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.1501372220350539,
+        "log_loss": 0.46655680922300763,
+        "mean_prediction": 0.21562157445157618
+      },
+      {
+        "seed": 9001,
+        "auc": 0.7296430729465927,
+        "ap": 0.44564785099564264,
+        "reviewed": 1200,
+        "defaults_captured": 562,
+        "capture_rate": 0.4235116804822909,
+        "precision": 0.4683333333333333,
+        "n": 6000,
+        "defaults": 1327,
+        "brier": 0.15070000924783836,
+        "log_loss": 0.4678455140331763,
+        "mean_prediction": 0.21552954187263618
+      }
+    ]
+  },
+  "parameter_counts": {
+    "ordered_gru": 4473,
+    "flat_mlp": 4417,
+    "shuffled_gru": 4473,
+    "no_status_gru": 3537
+  },
+  "latency": {
+    "latest_status_logistic": {
+      "median_ms_6000_accounts": 1.6208680000318054,
+      "repetitions": 7,
+      "preprocessing_included": true,
+      "calibration_excluded_for_all": true
+    },
+    "latest_lightgbm": {
+      "median_ms_6000_accounts": 43.09207400001469,
+      "repetitions": 7,
+      "preprocessing_included": true,
+      "calibration_excluded_for_all": true
+    },
+    "lightgbm": {
+      "median_ms_6000_accounts": 55.993893999925604,
+      "repetitions": 7,
+      "preprocessing_included": true,
+      "calibration_excluded_for_all": true
+    },
+    "ordered_gru": {
+      "median_ms_6000_accounts": 37.64852699998755,
+      "repetitions": 7,
+      "preprocessing_included": true,
+      "calibration_excluded_for_all": true
+    },
+    "flat_mlp": {
+      "median_ms_6000_accounts": 7.440574000042943,
+      "repetitions": 7,
+      "preprocessing_included": true,
+      "calibration_excluded_for_all": true
+    }
+  },
+  "fit_seconds": {
+    "latest_status_logistic": 0.015447963000042364,
+    "latest_logistic": 0.020791211999949155,
+    "latest_lightgbm": 0.436399462000054,
+    "ordered_gru": 12.231516301000056,
+    "flat_mlp": 9.989796988999956,
+    "shuffled_gru": 29.807223602000022,
+    "no_status_gru": 29.835277786999995
+  },
+  "practical_decision": {
+    "gru_qualifies_for_added_complexity": false,
+    "gru_minus_lightgbm_capture": -0.005275056518462717,
+    "criterion": "GRU complexity requires at least2 percentage points of capture advantage over full-history LightGBM, positive paired lower95% bound, and no more than2x median inference time. This review-stage criterion is not prospectively validated.",
+    "note": "Descriptive research recommendation; independent validation still absent."
+  },
+  "elapsed_seconds": 123.21859678599992
+}

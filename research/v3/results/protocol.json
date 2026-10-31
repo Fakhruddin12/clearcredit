@@ -1,0 +1,25 @@
+{
+  "study": "Post-review challenge dated 31 October 2026, designed after inspecting v2 reporting results.",
+  "status": "Exploratory retrospective follow-up. Same reused cohort; not confirmatory or prospective evidence.",
+  "data_and_splits": "Exact v2 workbook and disjoint financial-input-group partitions; no reporting-driven retuning.",
+  "primary_objective": "Defaults captured at exactly 20% account-review capacity; AUC, AP, Brier and log loss secondary.",
+  "simple_rules": "Binary latest status>=1; nonnegative latest status severity. Seed20261031 random tie-break fixed without labels. Also show tie expectations and 200 alternate tie draws.",
+  "latest_models": "Credit limit plus latest status, balance and payment and two limit ratios; logistic and LightGBM search the same three v2 development presets. Single-status logistic uses only PAY_0 categories, C=1.",
+  "history_controls": "Original three-seed GRU; same 17-channel monthly inputs flattened into an MLP(32,32); GRU with jointly permuted monthly vectors within each account, seed7331; GRU with all status channels removed.",
+  "neural_budget": "Original selected width24, dropout0.2, 26 fixed epochs for GRU controls; MLP widths32,32 dropout0.2, 26 epochs. AdamW lr0.001 wd0.001, batch256, clip5. No new neural architecture search.",
+  "seeds": [
+    42,
+    137,
+    2026,
+    718,
+    9001
+  ],
+  "primary_ensemble": "First three original seeds. Additional two seeds are single-fit sensitivity only and do not change ensemble membership.",
+  "order_ablation": "One fixed independent within-account permutation, applied to all four numeric and thirteen status channels jointly. Fit/calibration/reporting use the permuted representation; this is not inference-only corruption.",
+  "subgroup": "PAY_0<1 means no latest code>=1, not absence of prior distress. Report within-group AUC/AP and exact20% subgroup queue separately from global-policy capture.",
+  "fixed_policy": "For new common comparison, threshold is 80th percentile of calibration scores. This differs from the v2 tuning-score policy; legacy85.2% is not carried into this policy.",
+  "uncertainty": "500 paired bootstrap draws of full financial-input groups, conditional on fitted models. No multiplicity adjustment or retraining uncertainty. Neural single-fit ranges are separate.",
+  "practical_decision": "GRU complexity requires at least2 percentage points of capture advantage over full-history LightGBM, positive paired lower95% bound, and no more than2x median inference time. This review-stage criterion is not prospectively validated.",
+  "no_new_cohort": "No new untouched outcomes are available. A later multi-vintage dataset remains required; arbitrary ID or feature-month splitting is not a valid replacement.",
+  "stop": "Run this fixed comparison once, retain negative findings, do not promote a reporting winner as a newly development-selected champion."
+}

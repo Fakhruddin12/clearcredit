@@ -1,66 +1,69 @@
 # ClearCredit
 
-**Which credit-card accounts should a risk analyst review first?**
+**How much does repayment history add beyond an account's latest status?**
 
-This project predicts next-month default from customers' recent repayment histories. I compare simpler statistical models with deep learning, then examine whether their risk estimates are reliable and which defaults they miss.
+I studied next-month credit-card default using 30,000 historical Taiwan accounts. The project compares simple review rules, latest-month models and six-month history models, then tests whether monthly order and repayment-status information explain the results.
 
-On 6,000 historical accounts, the selected neural model placed **50.6% of eventual defaults in the highest-risk 20% of accounts**. That is useful risk concentration, but it did **not clearly outperform LightGBM**. The more revealing result is where the model fails: it recognises existing repayment distress much better than it warns of distress before that signal appears.
+At the same 1,200-account review workload, full-history LightGBM captures **678 defaults**, compared with **637** using latest-month inputs. An ordered GRU captures **671**, versus **648** after monthly order is disrupted. History helps in these comparisons, but the GRU has no clear capture advantage over the tree model or a flattened monthly network.
 
-[**Results and failure analysis**](research/v2/RESEARCH_REVIEW.md) · [**Code and reproduction**](research/v2/) · [**Model card**](research/v2/MODEL_CARD.md)
+[**Current research and reproduction**](research/v3/README.md) · [**Project report**](research/v3/ClearCredit_Project_Report.pdf) · [**Model card**](research/v3/MODEL_CARD.md) · [**Implemented changes**](research/v3/CHANGES.md)
 
-## What I built
+## Results at a common workload
 
-- A comparison of logistic regression, boosted trees, a residual neural network and a **GRU that reads six months of repayment history in order**.
-- Separate data for fitting, model selection and probability calibration, with identical financial profiles kept out of different partitions.
-- Analysis of default capture at a fixed review workload, probability accuracy, subgroup errors and sensitivity to missing account history.
-- A literature review connecting model choices to credit-risk research and model-validation practice.
+The reused reporting sample contains 6,000 accounts and 1,327 defaults. Every row below reviews exactly 1,200 accounts. Neural results use the original three-seed ensemble; additional seeds are sensitivity checks.
 
-## Results in context
+| Approach | AUC | Defaults captured | Capture rate |
+|---|---:|---:|---:|
+| Binary latest-delay rule | 0.678 | 593 | 44.69% |
+| Latest-delay severity rule | 0.691 | 616 | 46.42% |
+| Latest-month LightGBM | 0.759 | 637 | 48.00% |
+| **Full-history LightGBM** | **0.775** | **678** | **51.09%** |
+| Ordered GRU | 0.777 | 671 | 50.57% |
+| Same monthly inputs, flattened MLP | 0.773 | 665 | 50.11% |
+| Independently permuted monthly order, GRU | 0.768 | 648 | 48.83% |
+| Repayment-status channels removed, GRU | 0.731 | 559 | 42.13% |
 
-The UCI dataset contains 30,000 existing Taiwan credit-card accounts. The reporting sample contains **6,000 accounts and 1,327 observed defaults**. Each model below ranks the same number of accounts (1,200) as its highest-risk 20%; the selected accounts can differ between models.
+Rules use a fixed, label-independent tie key. Uniform tie handling gives expected capture of 45.08% for the binary rule and 46.73% for severity. Tie sensitivity and the complete eleven-approach comparison are in [saved results](research/v3/results/results.json).
 
-| Model | ROC-AUC | Defaults in highest-risk 20% |
-|---|---:|---:|
-| Logistic regression | 0.765 | 50.0% |
-| LightGBM | 0.775 | 51.1% |
-| **Monthly GRU, selected on development data** | **0.777** | **50.6%** |
-| Fixed tree/GRU blend, comparison model | 0.779 | 50.4% |
+The full-history tree's capture advantage over the latest-month tree is **3.09 percentage points**, with a paired 95% cluster-bootstrap interval of **1.27–4.63 points**. The ordered versus permuted GRU contrast is **1.73 points**, interval **0.61–3.07**. These are conditional exploratory intervals; the reporting cohort was already examined and no multiplicity adjustment is claimed.
 
-**How to read this:** the GRU's review group contains 671 of the 1,327 defaults, about 2.53 times the concentration expected from random selection. It still leaves 656 defaults outside that group. ROC-AUC measures risk ranking across thresholds; it is not the percentage of accounts classified correctly.
+![Neural history controls with conditional uncertainty](research/v3/results/history_controls.png)
 
-The GRU's AUC advantage over LightGBM is small and its paired confidence interval includes zero. The blend was not promoted after seeing its reporting result: selection had already favoured the GRU on development data. The residual-network result and full-precision tables are in [the saved results](research/v2/results/results.json).
+## What changed after challenging the original study
 
-The reporting sample was already examined in the earlier study, so this is **internal retrospective evaluation**, not a fresh or prospective test.
+- Added simple status rules and latest-month controls at exactly the same review capacity.
+- Compared ordered, flattened, permuted-order and no-status neural representations under a fixed training budget.
+- Reported five-seed sensitivity separately from fitted-model bootstrap uncertainty.
+- Corrected an early-warning overstatement: low recall under a global threshold does not establish an inability to rank accounts within a lower-risk subgroup.
+- Made an explicit research recommendation: advance full-history LightGBM for independent validation under this review objective. The original development-selected GRU is preserved, not retrospectively renamed.
 
-## What the analysis uncovered
+Among accounts without a latest recorded delay, a separately allocated highest-risk fifth captures **37.63%** of defaults with the GRU and **37.93%** with LightGBM. This group can contain earlier delays. It is not a verified first-deterioration cohort, and the dedicated subgroup queue is a different allocation policy from the global queue.
 
-- **Limited early warning.** At the fixed development review threshold, the GRU misses 85.2% of defaults among accounts without a latest-month delay code of at least 1.
-- **Dependence on recent data.** Masking the latest month's history changes 18.05% of review flags. An imputed score should not be assumed equally reliable.
-- **Uneven probability accuracy.** Portfolio-wide predictions are reasonably close to observed default rates, while some age groups are underpredicted.
+## Evidence and limits
 
-Sex, age, education, marriage and account ID are excluded from the new model. Demographic audits are descriptive; exclusion alone does not establish fairness. No lending intervention, realised savings or credit-loss reduction is claimed.
+The source is one historical 2005 cohort, not new applicants or a modern prospective portfolio. Financial-input groups are separated across fitting, tuning, calibration and reporting partitions. New latest-month searches use development labels only. Follow-up neural controls inherit the original GRU budget rather than receiving independent exhaustive tuning.
 
-![Probability reliability and default capture](research/v2/results/calibration_and_capture.png)
+The reporting cohort was used in earlier research. These results remain **exploratory retrospective evaluation**, not fresh out-of-time validation. No lending intervention, financial savings, production readiness or credit-loss reduction is claimed. [The next independent study is specified but has not been run.](research/v3/NEXT_STUDY_PROTOCOL.md)
 
-## Run the current research study
+## Reproduce
 
-Python 3.12 was used. From the repository root:
+Python 3.12 and a CPU are sufficient. From the repository root:
 
 ```bash
-cd research/v2
-python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
-python -m pip install -r requirements.txt
-python experiment.py --data data/source.xls --out results_reproduced
-python -m pytest -q tests
-python verify_results.py --data data/source.xls --results results_reproduced
+python -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+python -m pip install -r research/v3/requirements.txt
+cd research/v3
+python challenge.py --data ../v2/data/source.xls --out results_reproduced
+python -m pytest -q tests ../v2/tests
+python verify_challenge.py --data ../v2/data/source.xls --results results_reproduced
 ```
 
-The experiment downloads the public UCI workbook if absent, checks its checksum and generates models, predictions and diagnostics. Saved summary metrics, tuning records, protocols and charts are included. Downloaded data and fitted binary artifacts are generated locally. See [the detailed run guide](research/v2/README.md).
+If original fitted artifacts are absent, the runner first reproduces v2 and downloads the checksum-verified UCI workbook. The follow-up itself completed in about 123 seconds using restored baseline artifacts in the recorded environment; a clean run also incurs baseline fitting. Runtime varies by environment.
 
-## Earlier workflow and SQL extension
+Sixteen numerical/data-handling tests pass. The restore verifier checks all eleven score vectors for 6,000 accounts and recomputes aggregate and subgroup metrics. Model weights, source data and per-account predictions are generated locally and excluded from Git.
 
-The root `src/clearcredit` CLI and API belong to the earlier tabular workflow. Its [saved LightGBM results](reports/uci/metrics.json) remain available as historical evidence. A subsequent schema fix excludes UCI demographic fields and enables their audits; rerunning that corrected code is not an exact replay of the old saved benchmark. [Earlier methodology and version notes](docs/METHODOLOGY.md).
+## Earlier versions and engineering scope
 
-The [Home Credit SQL extension](sql/aggregate_features.sql) aggregates applicant histories in DuckDB. Its joins have synthetic tests, but the full Home Credit model has **not been benchmarked**. None of the UCI results measures that extension or the root API's production readiness.
+[The original v2 experiment](research/v2/) remains as research history. The root `src/clearcredit` CLI/API belongs to an earlier tabular demonstration. A [Home Credit SQL extension](sql/aggregate_features.sql) has synthetic join tests but has not been benchmarked on the full dataset. Neither extension inherits the current benchmark or production approval.
 
 **Author:** Fakhruddin Hakim Hussain · [Portfolio](https://github.com/Fakhruddin12)

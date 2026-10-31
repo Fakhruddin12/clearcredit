@@ -1,3 +1,5 @@
+> Historical v2 study. The [post-review challenge](../v3/README.md) adds matched-capacity baselines and history ablations, recommends a model for further validation, and corrects the interpretation of global-policy recall as a general early-warning conclusion. Original results remain preserved below.
+
 # Model card: ClearCredit behavioural GRU
 
 **Status:** research demonstration, developer-tested. No independent validation or production approval. No deployment performed.

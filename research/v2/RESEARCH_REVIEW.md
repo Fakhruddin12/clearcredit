@@ -1,3 +1,5 @@
+> Historical v2 study. The [post-review challenge](../v3/README.md) adds matched-capacity baselines and history ablations, recommends a model for further validation, and corrects the interpretation of global-policy recall as a general early-warning conclusion. Original results remain preserved below.
+
 # ClearCredit: behavioural credit-risk research and model challenge
 
 Research date: 28 October 2026. Project: Fakhruddin Hakim Hussain / ClearCredit.

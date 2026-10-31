@@ -40,3 +40,9 @@ research/v2/results/models/
 research/v2/results/reporting_predictions.csv
 research/v2/results/split_indices.npz
 research/v2/results_reproduced/
+
+# Post-review challenge: local generated artifacts
+research/v3/results_reproduced/
+research/v3/results/models/
+research/v3/results/reporting_predictions.csv
+research/v3/data/

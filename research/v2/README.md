@@ -1,3 +1,5 @@
+> Historical v2 study. The [post-review challenge](../v3/README.md) adds matched-capacity baselines and history ablations, recommends a model for further validation, and corrects the interpretation of global-policy recall as a general early-warning conclusion. Original results remain preserved below.
+
 # ClearCredit research extension
 
 **Measured question:** Does modelling six months of repayment history improve behavioural default-risk ranking, and where does the model fail?

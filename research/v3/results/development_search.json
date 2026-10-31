@@ -1,0 +1,57 @@
+[
+  {
+    "name": "latest_status_logistic",
+    "config": {
+      "C": 1.0
+    },
+    "development_ap": 0.46652800058744315
+  },
+  {
+    "name": "latest_logistic",
+    "config": {
+      "C": 0.01
+    },
+    "development_ap": 0.5225929373543299
+  },
+  {
+    "name": "latest_logistic",
+    "config": {
+      "C": 0.1
+    },
+    "development_ap": 0.5305529860279962
+  },
+  {
+    "name": "latest_logistic",
+    "config": {
+      "C": 1.0
+    },
+    "development_ap": 0.5342860201604299
+  },
+  {
+    "name": "latest_lightgbm",
+    "config": {
+      "num_leaves": 15,
+      "min_child_samples": 100,
+      "reg_lambda": 10.0
+    },
+    "development_ap": 0.5435367269395325
+  },
+  {
+    "name": "latest_lightgbm",
+    "config": {
+      "num_leaves": 31,
+      "min_child_samples": 100,
+      "reg_lambda": 10.0
+    },
+    "development_ap": 0.5388769865608012
+  },
+  {
+    "name": "latest_lightgbm",
+    "config": {
+      "num_leaves": 15,
+      "min_child_samples": 200,
+      "reg_lambda": 20.0
+    },
+    "development_ap": 0.5398863588423354
+  }
+]

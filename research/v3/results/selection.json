@@ -1,0 +1,102 @@
+{
+  "original_selection_unchanged": {
+    "champion": "gru",
+    "best_neural": "gru",
+    "configs": {
+      "logistic": {
+        "C": 1.0
+      },
+      "lightgbm": {
+        "num_leaves": 15,
+        "min_child_samples": 100,
+        "reg_lambda": 10.0
+      },
+      "resnet": {
+        "width": 64,
+        "dropout": 0.2
+      },
+      "gru": {
+        "width": 24,
+        "dropout": 0.2
+      }
+    },
+    "median_epochs": {
+      "resnet": 5,
+      "gru": 26
+    },
+    "tuning_average_precision": {
+      "logistic": 0.5624516991989983,
+      "lightgbm": 0.5601487440026937,
+      "resnet": 0.5655760412989742,
+      "gru": 0.5722773102463987,
+      "blend": 0.5716689235646599
+    },
+    "review_thresholds": {
+      "logistic": 0.3059445031140338,
+      "lightgbm": 0.3268347131859971,
+      "resnet": 0.29540497064590454,
+      "gru": 0.31310200691223145,
+      "blend": 0.31810042787823045
+    },
+    "note": "Thresholds are raw-score development thresholds; final-refit scale may change, which is measured."
+  },
+  "new_neural_configs": "frozen in protocol",
+  "new_latest_search": [
+    {
+      "name": "latest_status_logistic",
+      "config": {
+        "C": 1.0
+      },
+      "development_ap": 0.46652800058744315
+    },
+    {
+      "name": "latest_logistic",
+      "config": {
+        "C": 0.01
+      },
+      "development_ap": 0.5225929373543299
+    },
+    {
+      "name": "latest_logistic",
+      "config": {
+        "C": 0.1
+      },
+      "development_ap": 0.5305529860279962
+    },
+    {
+      "name": "latest_logistic",
+      "config": {
+        "C": 1.0
+      },
+      "development_ap": 0.5342860201604299
+    },
+    {
+      "name": "latest_lightgbm",
+      "config": {
+        "num_leaves": 15,
+        "min_child_samples": 100,
+        "reg_lambda": 10.0
+      },
+      "development_ap": 0.5435367269395325
+    },
+    {
+      "name": "latest_lightgbm",
+      "config": {
+        "num_leaves": 31,
+        "min_child_samples": 100,
+        "reg_lambda": 10.0
+      },
+      "development_ap": 0.5388769865608012
+    },
+    {
+      "name": "latest_lightgbm",
+      "config": {
+        "num_leaves": 15,
+        "min_child_samples": 200,
+        "reg_lambda": 20.0
+      },
+      "development_ap": 0.5398863588423354
+    }
+  ],
+  "no_reporting_winner_promotion": true
+}
