@@ -14,12 +14,12 @@
 
 **Controls:** financial-input groups do not cross the original four partitions. Final fitting 18,714; calibration 4,678; reporting 6,000. Source checksum and partition hashes match v2. Latest models use development-only selection. Primary neural ensembles use three original seeds; five individual fits assess seed sensitivity.
 
-**Early-warning correction:** no latest delay does not mean no earlier distress.641 of 4,676 such accounts have an earlier delay code. A separate 936-account subgroup queue captures 37.63% of 667 defaults with GRU, versus 37.93% with the history tree. It changes review allocation. No genuine future first-deterioration endpoint or validation cohort was added.
+**Early-warning correction:** no latest delay does not mean no earlier distress. 641 of 4,676 such accounts have an earlier delay code. A separate 936-account subgroup queue captures 37.63% of 667 defaults with GRU, versus 37.93% with the history tree. It changes review allocation. No genuine future first-deterioration endpoint or validation cohort was added.
 
-**Uncertainty:**500 paired financial-group bootstrap draws conditional on fitted models. No retraining uncertainty, full research-selection correction or multiplicity-controlled architecture claims. One fixed order-permutation realisation; inherited GRU training budget may disadvantage another architecture.
+**Uncertainty:** 500 paired financial-group bootstrap draws conditional on fitted models. No retraining uncertainty, full research-selection correction or multiplicity-controlled architecture claims. One fixed order-permutation realisation; inherited GRU training budget may disadvantage another architecture.
 
 **Other failure modes:** original masking changes 18.05% of original-policy review flags; natural missing-history fallback unvalidated. Age calibration gaps and pure-label-shift sensitivity remain descriptive. Old global-threshold diagnostics are not silently reused as measurements of the new calibration-threshold policy.
 
-**Reproducibility:**16 tests pass; restore verification matches all eleven score vectors and all aggregate/subgroup headline metrics. Source data, weights and per-account predictions generated locally; summary results committed. The original API and Home Credit SQL extension remain separate unbenchmarked/developer demonstrations.
+**Reproducibility:** 16 tests pass; restore verification matches all eleven score vectors and all aggregate/subgroup headline metrics. Source data, weights and per-account predictions generated locally; summary results committed. The original API and Home Credit SQL extension remain separate unbenchmarked/developer demonstrations.
 
 **Next requirement:** independently later, matured outcomes and a frozen chronological study as specified in NEXT_STUDY_PROTOCOL.md. Independent challenge, actual policy economics, input lineage, exception handling and operational approval remain outstanding.

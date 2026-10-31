@@ -2,6 +2,8 @@
 
 Study date: 31 October 2026. Status: exploratory retrospective follow-up to v2.
 
+Start with [results and model choice](RESULTS_SUMMARY.md), then the [full report](ClearCredit_Project_Report.pdf) and [model card](MODEL_CARD.md).
+
 ## Results at a common workload
 
 The reused reporting sample contains 6,000 accounts and 1,327 defaults. Every row below reviews exactly 1,200 accounts. Neural results use the original three-seed ensemble; additional seeds are sensitivity checks.

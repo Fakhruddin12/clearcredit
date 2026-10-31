@@ -6,7 +6,7 @@ I studied next-month credit-card default using 30,000 historical Taiwan accounts
 
 At the same 1,200-account review workload, full-history LightGBM captures **678 defaults**, compared with **637** using latest-month inputs. An ordered GRU captures **671**, versus **648** after monthly order is disrupted. History helps in these comparisons, but the GRU has no clear capture advantage over the tree model or a flattened monthly network.
 
-[**Current research and reproduction**](research/v3/README.md) · [**Project report**](research/v3/ClearCredit_Project_Report.pdf) · [**Model card**](research/v3/MODEL_CARD.md) · [**Implemented changes**](research/v3/CHANGES.md)
+[**Results in brief**](research/v3/RESULTS_SUMMARY.md) · [**Current research and reproduction**](research/v3/README.md) · [**Project report**](research/v3/ClearCredit_Project_Report.pdf) · [**Model card**](research/v3/MODEL_CARD.md) · [**Implemented changes**](research/v3/CHANGES.md)
 
 ## Results at a common workload
 

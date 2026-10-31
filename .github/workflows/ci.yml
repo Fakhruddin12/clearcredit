@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
-      - run: pip install -r research/v2/requirements.txt
-      - run: pytest -q research/v2/tests
+      - run: pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -r research/v3/requirements.txt
+      - run: pytest -q research/v2/tests research/v3/tests
 
