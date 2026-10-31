@@ -1,5 +1,11 @@
 # ClearCredit
 
+[**Project report (PDF)**](reports/PROJECT_REPORT.pdf) · [**Research decision and evidence limits**](docs/RESEARCH_DECISION.md)
+
+At exactly 1,200 reviews, full-history LightGBM captures 678 observed defaults versus 637 for latest-month LightGBM: 41 additional cases, or +3.09 capture percentage points (paired 95% bootstrap interval 1.27–4.63). The GRU captures 671 and has no clear capacity advantage over LightGBM.
+
+**Research decision:** Full-history LightGBM is the model to advance for the fixed review-capacity objective.
+
 **How much does repayment history add beyond an account's latest status?**
 
 I studied next-month credit-card default using 30,000 historical Taiwan accounts. The project compares simple review rules, latest-month models and six-month history models, then tests whether monthly order and repayment-status information explain the results.
@@ -67,3 +73,4 @@ Sixteen numerical/data-handling tests pass. The restore verifier checks all elev
 [The original v2 experiment](research/v2/) remains as research history. The root `src/clearcredit` CLI/API belongs to an earlier tabular demonstration. A [Home Credit SQL extension](sql/aggregate_features.sql) has synthetic join tests but has not been benchmarked on the full dataset. Neither extension inherits the current benchmark or production approval.
 
 **Author:** Fakhruddin Hakim Hussain · [Portfolio](https://github.com/Fakhruddin12)
+
